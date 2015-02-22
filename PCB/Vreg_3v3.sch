@@ -1,0 +1,186 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:Custom_components
+LIBS:QMBTv1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 8
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCP1802_(Vreg) IC2
+U 1 1 54A79EA5
+P 5650 3400
+F 0 "IC2" H 5500 3650 60  0000 C CNN
+F 1 "MCP1802_(Vreg)" H 5650 3050 60  0001 C CNN
+F 2 "footprints:Sot-23-5" H 5650 3400 60  0001 C CNN
+F 3 "" H 5650 3400 60  0000 C CNN
+	1    5650 3400
+	1    0    0    -1  
+$EndComp
+Text GLabel 4600 3300 0    47   Input ~ 0
+VIN
+NoConn ~ 6100 3500
+$Comp
+L PWR_FLAG #FLG014
+U 1 1 54A79F74
+P 1050 1200
+F 0 "#FLG014" H 1050 1295 30  0001 C CNN
+F 1 "PWR_FLAG" H 1050 1380 30  0000 C CNN
+F 2 "" H 1050 1200 60  0000 C CNN
+F 3 "" H 1050 1200 60  0000 C CNN
+	1    1050 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR015
+U 1 1 54A79F88
+P 1300 1150
+F 0 "#PWR015" H 1300 1110 30  0001 C CNN
+F 1 "+3.3V" H 1300 1260 30  0000 C CNN
+F 2 "" H 1300 1150 60  0000 C CNN
+F 3 "" H 1300 1150 60  0000 C CNN
+	1    1300 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1050 1200 1050 1250
+Wire Wire Line
+	1050 1250 1300 1250
+Wire Wire Line
+	1300 1250 1300 1150
+$Comp
+L C C5
+U 1 1 54A79FF3
+P 4900 3800
+F 0 "C5" H 4900 3900 40  0000 L CNN
+F 1 "1uF" H 4906 3715 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 4938 3650 30  0001 C CNN
+F 3 "" H 4900 3800 60  0000 C CNN
+	1    4900 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR016
+U 1 1 54A7A032
+P 5100 3900
+F 0 "#PWR016" H 5100 3900 30  0001 C CNN
+F 1 "GND" H 5100 3830 30  0001 C CNN
+F 2 "" H 5100 3900 60  0000 C CNN
+F 3 "" H 5100 3900 60  0000 C CNN
+	1    5100 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5250 3400 5100 3400
+Wire Wire Line
+	5100 3400 5100 3900
+Wire Wire Line
+	5250 3500 4900 3500
+Wire Wire Line
+	4900 3300 4900 3600
+Wire Wire Line
+	4600 3300 5250 3300
+Connection ~ 4900 3500
+Connection ~ 4900 3300
+$Comp
+L GND #PWR017
+U 1 1 54A7A08E
+P 4900 4150
+F 0 "#PWR017" H 4900 4150 30  0001 C CNN
+F 1 "GND" H 4900 4080 30  0001 C CNN
+F 2 "" H 4900 4150 60  0000 C CNN
+F 3 "" H 4900 4150 60  0000 C CNN
+	1    4900 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 4000 4900 4150
+$Comp
+L C C6
+U 1 1 54A7A125
+P 6400 3500
+F 0 "C6" H 6400 3600 40  0000 L CNN
+F 1 "2.2uF" H 6406 3415 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 6438 3350 30  0001 C CNN
+F 3 "" H 6400 3500 60  0000 C CNN
+	1    6400 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR018
+U 1 1 54A7A17C
+P 6400 3900
+F 0 "#PWR018" H 6400 3900 30  0001 C CNN
+F 1 "GND" H 6400 3830 30  0001 C CNN
+F 2 "" H 6400 3900 60  0000 C CNN
+F 3 "" H 6400 3900 60  0000 C CNN
+	1    6400 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 3300 6400 3300
+Wire Wire Line
+	6400 3700 6400 3900
+Text Notes 1050 900  0    60   ~ 0
+Kicad specific\n
+Wire Notes Line
+	900  750  900  1500
+Wire Notes Line
+	900  1500 1800 1500
+Wire Notes Line
+	1800 1500 1800 750 
+Wire Notes Line
+	1800 750  900  750 
+$Comp
+L +3.3V #PWR019
+U 1 1 54A908B8
+P 6400 3100
+F 0 "#PWR019" H 6400 3060 30  0001 C CNN
+F 1 "+3.3V" H 6400 3210 30  0000 C CNN
+F 2 "" H 6400 3100 60  0000 C CNN
+F 3 "" H 6400 3100 60  0000 C CNN
+	1    6400 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 3300 6400 3100
+$EndSCHEMATC

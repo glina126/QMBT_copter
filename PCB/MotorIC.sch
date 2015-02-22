@@ -1,0 +1,537 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:Custom_components
+LIBS:QMBTv1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 8 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L DRV8830 U3
+U 1 1 54A83413
+P 3400 3500
+F 0 "U3" H 3200 4050 47  0000 C CNN
+F 1 "DRV8830" H 3450 3250 47  0000 C CNN
+F 2 "footprints:DRV8830" H 3400 3500 47  0001 C CNN
+F 3 "" H 3400 3500 47  0000 C CNN
+	1    3400 3500
+	1    0    0    -1  
+$EndComp
+Text Label 3950 3500 0    47   ~ 0
+fault
+Text GLabel 3950 3100 2    47   Input ~ 0
+SCL
+Text GLabel 3950 3200 2    47   Input ~ 0
+SDA
+$Comp
+L GND #PWR042
+U 1 1 54A838FC
+P 4400 3800
+F 0 "#PWR042" H 4400 3800 30  0001 C CNN
+F 1 "GND" H 4400 3730 30  0001 C CNN
+F 2 "" H 4400 3800 60  0000 C CNN
+F 3 "" H 4400 3800 60  0000 C CNN
+	1    4400 3800
+	1    0    0    -1  
+$EndComp
+Text Notes 4350 3400 2    47   ~ 0
+0xC0\n
+$Comp
+L GND #PWR043
+U 1 1 54A8395F
+P 4050 3800
+F 0 "#PWR043" H 4050 3800 30  0001 C CNN
+F 1 "GND" H 4050 3730 30  0001 C CNN
+F 2 "" H 4050 3800 60  0000 C CNN
+F 3 "" H 4050 3800 60  0000 C CNN
+	1    4050 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR044
+U 1 1 54A8399A
+P 2850 3800
+F 0 "#PWR044" H 2850 3800 30  0001 C CNN
+F 1 "GND" H 2850 3730 30  0001 C CNN
+F 2 "" H 2850 3800 60  0000 C CNN
+F 3 "" H 2850 3800 60  0000 C CNN
+	1    2850 3800
+	1    0    0    -1  
+$EndComp
+Text Label 2950 3100 2    47   ~ 0
+out2-m1
+Text Label 2950 3300 2    47   ~ 0
+out1-m1
+Wire Wire Line
+	4400 3300 4400 3800
+Wire Wire Line
+	4400 3300 3950 3300
+Wire Wire Line
+	3950 3400 4400 3400
+Connection ~ 4400 3400
+Wire Wire Line
+	3950 3600 4050 3600
+Wire Wire Line
+	4050 3600 4050 3800
+Wire Wire Line
+	2850 3500 2850 3800
+Wire Wire Line
+	2850 3500 2950 3500
+$Comp
+L R R7
+U 1 1 54A83AF2
+P 2500 3450
+F 0 "R7" V 2580 3450 40  0000 C CNN
+F 1 "0.22ohm" V 2507 3451 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 2430 3450 30  0001 C CNN
+F 3 "" H 2500 3450 30  0000 C CNN
+	1    2500 3450
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2500 3200 2950 3200
+$Comp
+L GND #PWR045
+U 1 1 54A83B51
+P 2500 3800
+F 0 "#PWR045" H 2500 3800 30  0001 C CNN
+F 1 "GND" H 2500 3730 30  0001 C CNN
+F 2 "" H 2500 3800 60  0000 C CNN
+F 3 "" H 2500 3800 60  0000 C CNN
+	1    2500 3800
+	1    0    0    -1  
+$EndComp
+Text GLabel 2950 3400 0    47   Input ~ 0
+VIN
+Wire Wire Line
+	2500 3700 2500 3800
+$Comp
+L DRV8830 U5
+U 1 1 54A83F48
+P 6000 3500
+F 0 "U5" H 5800 4050 47  0000 C CNN
+F 1 "DRV8830" H 6050 3250 47  0000 C CNN
+F 2 "footprints:DRV8830" H 6000 3500 47  0001 C CNN
+F 3 "" H 6000 3500 47  0000 C CNN
+	1    6000 3500
+	1    0    0    -1  
+$EndComp
+Text Label 6550 3500 0    47   ~ 0
+fault
+Text GLabel 6550 3100 2    47   Input ~ 0
+SCL
+Text GLabel 6550 3200 2    47   Input ~ 0
+SDA
+$Comp
+L GND #PWR046
+U 1 1 54A83F51
+P 7000 3800
+F 0 "#PWR046" H 7000 3800 30  0001 C CNN
+F 1 "GND" H 7000 3730 30  0001 C CNN
+F 2 "" H 7000 3800 60  0000 C CNN
+F 3 "" H 7000 3800 60  0000 C CNN
+	1    7000 3800
+	1    0    0    -1  
+$EndComp
+Text Notes 6950 3450 2    47   ~ 0
+0xC2\n\n
+$Comp
+L GND #PWR047
+U 1 1 54A83F58
+P 6650 3800
+F 0 "#PWR047" H 6650 3800 30  0001 C CNN
+F 1 "GND" H 6650 3730 30  0001 C CNN
+F 2 "" H 6650 3800 60  0000 C CNN
+F 3 "" H 6650 3800 60  0000 C CNN
+	1    6650 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR048
+U 1 1 54A83F5E
+P 5450 3800
+F 0 "#PWR048" H 5450 3800 30  0001 C CNN
+F 1 "GND" H 5450 3730 30  0001 C CNN
+F 2 "" H 5450 3800 60  0000 C CNN
+F 3 "" H 5450 3800 60  0000 C CNN
+	1    5450 3800
+	1    0    0    -1  
+$EndComp
+Text Label 5550 3100 2    47   ~ 0
+out2-m2
+Text Label 5550 3300 2    47   ~ 0
+out1-m2
+Wire Wire Line
+	7000 3300 7000 3800
+Wire Wire Line
+	7000 3300 6550 3300
+Wire Wire Line
+	6550 3600 6650 3600
+Wire Wire Line
+	6650 3600 6650 3800
+Wire Wire Line
+	5450 3500 5450 3800
+Wire Wire Line
+	5450 3500 5550 3500
+$Comp
+L R R9
+U 1 1 54A83F6E
+P 5100 3450
+F 0 "R9" V 5180 3450 40  0000 C CNN
+F 1 "0.22ohm" V 5107 3451 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 5030 3450 30  0001 C CNN
+F 3 "" H 5100 3450 30  0000 C CNN
+	1    5100 3450
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5100 3200 5550 3200
+$Comp
+L GND #PWR049
+U 1 1 54A83F75
+P 5100 3800
+F 0 "#PWR049" H 5100 3800 30  0001 C CNN
+F 1 "GND" H 5100 3730 30  0001 C CNN
+F 2 "" H 5100 3800 60  0000 C CNN
+F 3 "" H 5100 3800 60  0000 C CNN
+	1    5100 3800
+	1    0    0    -1  
+$EndComp
+Text GLabel 5550 3400 0    47   Input ~ 0
+VIN
+Wire Wire Line
+	5100 3700 5100 3800
+$Comp
+L DRV8830 U4
+U 1 1 54A83FE1
+P 3450 5000
+F 0 "U4" H 3250 5550 47  0000 C CNN
+F 1 "DRV8830" H 3500 4750 47  0000 C CNN
+F 2 "footprints:DRV8830" H 3450 5000 47  0001 C CNN
+F 3 "" H 3450 5000 47  0000 C CNN
+	1    3450 5000
+	1    0    0    -1  
+$EndComp
+Text Label 4000 5000 0    47   ~ 0
+fault
+Text GLabel 4000 4600 2    47   Input ~ 0
+SCL
+Text GLabel 4000 4700 2    47   Input ~ 0
+SDA
+$Comp
+L GND #PWR050
+U 1 1 54A83FEA
+P 4450 5300
+F 0 "#PWR050" H 4450 5300 30  0001 C CNN
+F 1 "GND" H 4450 5230 30  0001 C CNN
+F 2 "" H 4450 5300 60  0000 C CNN
+F 3 "" H 4450 5300 60  0000 C CNN
+	1    4450 5300
+	1    0    0    -1  
+$EndComp
+Text Notes 4400 4900 2    47   ~ 0
+0xC6
+$Comp
+L GND #PWR051
+U 1 1 54A83FF1
+P 4100 5300
+F 0 "#PWR051" H 4100 5300 30  0001 C CNN
+F 1 "GND" H 4100 5230 30  0001 C CNN
+F 2 "" H 4100 5300 60  0000 C CNN
+F 3 "" H 4100 5300 60  0000 C CNN
+	1    4100 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR052
+U 1 1 54A83FF7
+P 2900 5300
+F 0 "#PWR052" H 2900 5300 30  0001 C CNN
+F 1 "GND" H 2900 5230 30  0001 C CNN
+F 2 "" H 2900 5300 60  0000 C CNN
+F 3 "" H 2900 5300 60  0000 C CNN
+	1    2900 5300
+	1    0    0    -1  
+$EndComp
+Text Label 3000 4600 2    47   ~ 0
+out2-m3
+Text Label 3000 4800 2    47   ~ 0
+out1-m3
+Wire Wire Line
+	4000 4900 4450 4900
+Wire Wire Line
+	4000 5100 4100 5100
+Wire Wire Line
+	4100 5100 4100 5300
+Wire Wire Line
+	2900 5000 2900 5300
+Wire Wire Line
+	2900 5000 3000 5000
+$Comp
+L R R8
+U 1 1 54A84007
+P 2550 4950
+F 0 "R8" V 2630 4950 40  0000 C CNN
+F 1 "0.22ohm" V 2557 4951 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 2480 4950 30  0001 C CNN
+F 3 "" H 2550 4950 30  0000 C CNN
+	1    2550 4950
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2550 4700 3000 4700
+$Comp
+L GND #PWR053
+U 1 1 54A8400E
+P 2550 5300
+F 0 "#PWR053" H 2550 5300 30  0001 C CNN
+F 1 "GND" H 2550 5230 30  0001 C CNN
+F 2 "" H 2550 5300 60  0000 C CNN
+F 3 "" H 2550 5300 60  0000 C CNN
+	1    2550 5300
+	1    0    0    -1  
+$EndComp
+Text GLabel 3000 4900 0    47   Input ~ 0
+VIN
+Wire Wire Line
+	2550 5200 2550 5300
+$Comp
+L DRV8830 U6
+U 1 1 54A84016
+P 6050 5000
+F 0 "U6" H 5850 5550 47  0000 C CNN
+F 1 "DRV8830" H 6100 4750 47  0000 C CNN
+F 2 "footprints:DRV8830" H 6050 5000 47  0001 C CNN
+F 3 "" H 6050 5000 47  0000 C CNN
+	1    6050 5000
+	1    0    0    -1  
+$EndComp
+Text Label 6600 5000 0    47   ~ 0
+fault
+Text GLabel 6600 4600 2    47   Input ~ 0
+SCL
+Text GLabel 6600 4700 2    47   Input ~ 0
+SDA
+$Comp
+L GND #PWR054
+U 1 1 54A84026
+P 6700 5300
+F 0 "#PWR054" H 6700 5300 30  0001 C CNN
+F 1 "GND" H 6700 5230 30  0001 C CNN
+F 2 "" H 6700 5300 60  0000 C CNN
+F 3 "" H 6700 5300 60  0000 C CNN
+	1    6700 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR055
+U 1 1 54A8402C
+P 5500 5300
+F 0 "#PWR055" H 5500 5300 30  0001 C CNN
+F 1 "GND" H 5500 5230 30  0001 C CNN
+F 2 "" H 5500 5300 60  0000 C CNN
+F 3 "" H 5500 5300 60  0000 C CNN
+	1    5500 5300
+	1    0    0    -1  
+$EndComp
+Text Label 5600 4600 2    47   ~ 0
+out2-m4
+Text Label 5600 4800 2    47   ~ 0
+out1-m4
+Wire Wire Line
+	6600 5100 6700 5100
+Wire Wire Line
+	6700 5100 6700 5300
+Wire Wire Line
+	5500 5000 5500 5300
+Wire Wire Line
+	5500 5000 5600 5000
+$Comp
+L R R10
+U 1 1 54A8403C
+P 5150 4950
+F 0 "R10" V 5230 4950 40  0000 C CNN
+F 1 "0.22ohm" V 5157 4951 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 5080 4950 30  0001 C CNN
+F 3 "" H 5150 4950 30  0000 C CNN
+	1    5150 4950
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5150 4700 5600 4700
+$Comp
+L GND #PWR056
+U 1 1 54A84043
+P 5150 5300
+F 0 "#PWR056" H 5150 5300 30  0001 C CNN
+F 1 "GND" H 5150 5230 30  0001 C CNN
+F 2 "" H 5150 5300 60  0000 C CNN
+F 3 "" H 5150 5300 60  0000 C CNN
+	1    5150 5300
+	1    0    0    -1  
+$EndComp
+Text GLabel 5600 4900 0    47   Input ~ 0
+VIN
+Wire Wire Line
+	5150 5200 5150 5300
+Text Notes 3300 2850 0    47   ~ 0
+Motor 1
+Text Notes 5950 2850 0    47   ~ 0
+Motor 2
+Text Notes 3350 4350 0    47   ~ 0
+Motor 3
+Text Notes 5950 4350 0    47   ~ 0
+Motor 4
+Wire Wire Line
+	4450 4900 4450 5300
+NoConn ~ 4000 4800
+NoConn ~ 6550 3400
+NoConn ~ 6600 4800
+NoConn ~ 6600 4900
+Text Notes 6750 4900 0    47   ~ 0
+0xC8
+$Comp
+L R R11
+U 1 1 54A856C5
+P 8550 3600
+F 0 "R11" V 8630 3600 40  0000 C CNN
+F 1 "10Kohm" V 8557 3601 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 8480 3600 30  0001 C CNN
+F 3 "" H 8550 3600 30  0000 C CNN
+	1    8550 3600
+	1    0    0    -1  
+$EndComp
+Text Label 8450 3950 2    47   ~ 0
+fault
+Text GLabel 8400 3250 0    47   Input ~ 0
+VIN
+Wire Wire Line
+	8400 3250 8550 3250
+Wire Wire Line
+	8550 3250 8550 3350
+Wire Wire Line
+	8450 3950 8550 3950
+Wire Wire Line
+	8550 3950 8550 3850
+Wire Notes Line
+	2100 2450 2100 5650
+Wire Notes Line
+	2100 5650 9500 5650
+Wire Notes Line
+	9500 5650 9500 2450
+Wire Notes Line
+	9500 2450 2100 2450
+Wire Notes Line
+	4800 2450 4800 5650
+Wire Notes Line
+	2100 4150 7400 4150
+Wire Notes Line
+	7400 2450 7400 5650
+Text Notes 8300 2800 0    47   ~ 0
+Common
+$Comp
+L CONN_01X02 P2
+U 1 1 54A86A39
+P 2400 2800
+F 0 "P2" H 2400 2950 50  0000 C CNN
+F 1 "CONN_01X02" V 2500 2800 50  0000 C CNN
+F 2 "footprints:2x0.5mm_Through_Hole" H 2400 2800 60  0001 C CNN
+F 3 "" H 2400 2800 60  0000 C CNN
+	1    2400 2800
+	-1   0    0    1   
+$EndComp
+Text Label 2600 2850 0    47   ~ 0
+out1-m1
+Text Label 2600 2750 0    47   ~ 0
+out2-m1
+$Comp
+L CONN_01X02 P4
+U 1 1 54A86DF0
+P 5050 2750
+F 0 "P4" H 5050 2900 50  0000 C CNN
+F 1 "CONN_01X02" V 5150 2750 50  0000 C CNN
+F 2 "footprints:2x0.5mm_Through_Hole" H 5050 2750 60  0001 C CNN
+F 3 "" H 5050 2750 60  0000 C CNN
+	1    5050 2750
+	-1   0    0    1   
+$EndComp
+Text Label 5250 2800 0    47   ~ 0
+out1-m2
+Text Label 5250 2700 0    47   ~ 0
+out2-m2
+$Comp
+L CONN_01X02 P1
+U 1 1 54A86E27
+P 2350 4350
+F 0 "P1" H 2350 4500 50  0000 C CNN
+F 1 "CONN_01X02" V 2450 4350 50  0000 C CNN
+F 2 "footprints:2x0.5mm_Through_Hole" H 2350 4350 60  0001 C CNN
+F 3 "" H 2350 4350 60  0000 C CNN
+	1    2350 4350
+	-1   0    0    1   
+$EndComp
+Text Label 2550 4400 0    47   ~ 0
+out1-m3
+Text Label 2550 4300 0    47   ~ 0
+out2-m3
+$Comp
+L CONN_01X02 P3
+U 1 1 54A86E2F
+P 5000 4350
+F 0 "P3" H 5000 4500 50  0000 C CNN
+F 1 "CONN_01X02" V 5100 4350 50  0000 C CNN
+F 2 "footprints:2x0.5mm_Through_Hole" H 5000 4350 60  0001 C CNN
+F 3 "" H 5000 4350 60  0000 C CNN
+	1    5000 4350
+	-1   0    0    1   
+$EndComp
+Text Label 5200 4400 0    47   ~ 0
+out1-m4
+Text Label 5200 4300 0    47   ~ 0
+out2-m4
+Text Label 8450 4300 2    47   ~ 0
+fault
+Wire Wire Line
+	8450 4300 8550 4300
+Text GLabel 8550 4300 2    47   Input ~ 0
+D3
+$EndSCHEMATC

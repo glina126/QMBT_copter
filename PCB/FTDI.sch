@@ -1,0 +1,420 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:Custom_components
+LIBS:QMBTv1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 5 10
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L FTDI U2
+U 1 1 54A7D334
+P 6250 3550
+F 0 "U2" H 5550 3700 47  0000 C CNN
+F 1 "FTDI" H 6100 3100 47  0000 C CNN
+F 2 "footprints:FT230X-(QFN16-4x4mm)" H 6250 3550 47  0001 C CNN
+F 3 "" H 6250 3550 47  0000 C CNN
+	1    6250 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L USB-MICRO-B CON1
+U 1 1 54A7D36E
+P 3700 2950
+F 0 "CON1" H 3400 3300 50  0000 C CNN
+F 1 "USB-MICRO-B" H 3550 2600 50  0000 C CNN
+F 2 "footprints:microB_USB_SMD" H 3700 2850 50  0001 C CNN
+F 3 "" H 3700 2850 50  0000 C CNN
+	1    3700 2950
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR033
+U 1 1 54A7D47D
+P 6150 4850
+F 0 "#PWR033" H 6150 4850 30  0001 C CNN
+F 1 "GND" H 6150 4780 30  0001 C CNN
+F 2 "" H 6150 4850 60  0000 C CNN
+F 3 "" H 6150 4850 60  0000 C CNN
+	1    6150 4850
+	1    0    0    -1  
+$EndComp
+Text GLabel 6900 3750 2    47   Input ~ 0
+TXD
+$Comp
+L LED D2
+U 1 1 54A7D529
+P 7800 3250
+F 0 "D2" H 7800 3350 50  0000 C CNN
+F 1 "RX" H 7800 3150 50  0000 C CNN
+F 2 "footprints:SMD-0402_LED" H 7800 3250 60  0001 C CNN
+F 3 "" H 7800 3250 60  0000 C CNN
+	1    7800 3250
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D3
+U 1 1 54A7D588
+P 8200 3250
+F 0 "D3" H 8200 3350 50  0000 C CNN
+F 1 "TX" H 8200 3150 50  0000 C CNN
+F 2 "footprints:SMD-0402_LED" H 8200 3250 60  0001 C CNN
+F 3 "" H 8200 3250 60  0000 C CNN
+	1    8200 3250
+	0    1    1    0   
+$EndComp
+$Comp
+L R R5
+U 1 1 54A7D5CB
+P 7800 3750
+F 0 "R5" V 7880 3750 40  0000 C CNN
+F 1 "270ohm" V 7807 3751 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 7730 3750 30  0001 C CNN
+F 3 "" H 7800 3750 30  0000 C CNN
+	1    7800 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R6
+U 1 1 54A7D60E
+P 8200 3750
+F 0 "R6" V 8280 3750 40  0000 C CNN
+F 1 "270ohm" V 8207 3751 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 8130 3750 30  0001 C CNN
+F 3 "" H 8200 3750 30  0000 C CNN
+	1    8200 3750
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6900 4150
+NoConn ~ 6900 4450
+Text Label 6200 3300 0    47   ~ 0
+decap
+Text Label 5300 4300 2    47   ~ 0
+decap
+Text Label 5300 3650 2    47   ~ 0
+decap
+$Comp
+L C C16
+U 1 1 54A7DC8E
+P 6450 2500
+F 0 "C16" H 6450 2600 40  0000 L CNN
+F 1 "0.1uF" H 6456 2415 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 6488 2350 30  0001 C CNN
+F 3 "" H 6450 2500 60  0000 C CNN
+	1    6450 2500
+	1    0    0    -1  
+$EndComp
+Text Label 6450 2300 2    47   ~ 0
+decap
+$Comp
+L GND #PWR034
+U 1 1 54A7DDCB
+P 6450 2800
+F 0 "#PWR034" H 6450 2800 30  0001 C CNN
+F 1 "GND" H 6450 2730 30  0001 C CNN
+F 2 "" H 6450 2800 60  0000 C CNN
+F 3 "" H 6450 2800 60  0000 C CNN
+	1    6450 2800
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6900 3950
+$Comp
+L C C15
+U 1 1 54A7E9D3
+P 4800 3450
+F 0 "C15" H 4800 3550 40  0000 L CNN
+F 1 "10nF" H 4806 3365 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 4838 3300 30  0001 C CNN
+F 3 "" H 4800 3450 60  0000 C CNN
+	1    4800 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR035
+U 1 1 54A7EA47
+P 4800 3800
+F 0 "#PWR035" H 4800 3800 30  0001 C CNN
+F 1 "GND" H 4800 3730 30  0001 C CNN
+F 2 "" H 4800 3800 60  0000 C CNN
+F 3 "" H 4800 3800 60  0000 C CNN
+	1    4800 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R4
+U 1 1 54A7EA7D
+P 4850 4100
+F 0 "R4" V 4950 4000 40  0000 C CNN
+F 1 "27ohm" V 4857 4101 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 4780 4100 30  0001 C CNN
+F 3 "" H 4850 4100 30  0000 C CNN
+	1    4850 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L R R3
+U 1 1 54A7EAD7
+P 4850 4000
+F 0 "R3" V 4750 3900 40  0000 C CNN
+F 1 "27ohm" V 4857 4001 40  0000 C CNN
+F 2 "Resistors_SMD:R_0402" V 4780 4000 30  0001 C CNN
+F 3 "" H 4850 4000 30  0000 C CNN
+	1    4850 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L C C13
+U 1 1 54A7ECFA
+P 3750 4050
+F 0 "C13" H 3750 4150 40  0000 L CNN
+F 1 "47pf" H 3756 3965 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 3788 3900 30  0001 C CNN
+F 3 "" H 3750 4050 60  0000 C CNN
+	1    3750 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C14
+U 1 1 54A7ED27
+P 4050 4050
+F 0 "C14" H 4050 4150 40  0000 L CNN
+F 1 "47pf" H 4056 3965 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 4088 3900 30  0001 C CNN
+F 3 "" H 4050 4050 60  0000 C CNN
+	1    4050 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR036
+U 1 1 54A7EE3C
+P 3900 4400
+F 0 "#PWR036" H 3900 4400 30  0001 C CNN
+F 1 "GND" H 3900 4330 30  0001 C CNN
+F 2 "" H 3900 4400 60  0000 C CNN
+F 3 "" H 3900 4400 60  0000 C CNN
+	1    3900 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR037
+U 1 1 54A7F196
+P 4650 2900
+F 0 "#PWR037" H 4650 2900 30  0001 C CNN
+F 1 "GND" H 4650 2830 30  0001 C CNN
+F 2 "" H 4650 2900 60  0000 C CNN
+F 3 "" H 4650 2900 60  0000 C CNN
+	1    4650 2900
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4200 2850
+NoConn ~ 3200 3150
+NoConn ~ 3200 3050
+NoConn ~ 3200 2850
+NoConn ~ 3200 2750
+Text Label 7800 3050 2    47   ~ 0
+vbus
+Text Label 8200 3050 2    47   ~ 0
+vbus
+Text Label 4800 3250 2    47   ~ 0
+vbus
+Text Label 6050 3300 2    47   ~ 0
+vbus
+Text Label 4250 3150 0    47   ~ 0
+vbus
+$Comp
+L PWR_FLAG #FLG038
+U 1 1 54A8162B
+P 850 950
+F 0 "#FLG038" H 850 1045 30  0001 C CNN
+F 1 "PWR_FLAG" H 850 1130 30  0000 C CNN
+F 2 "" H 850 950 60  0000 C CNN
+F 3 "" H 850 950 60  0000 C CNN
+	1    850  950 
+	1    0    0    -1  
+$EndComp
+Text Label 850  1100 2    47   ~ 0
+vbus
+Text GLabel 6900 3650 2    47   Input ~ 0
+RXI
+Text Notes 1100 650  2    47   ~ 0
+Kicad specific
+$Comp
+L C C17
+U 1 1 54A8246D
+P 5650 2500
+F 0 "C17" H 5650 2600 40  0000 L CNN
+F 1 "C" H 5656 2415 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 5688 2350 30  0001 C CNN
+F 3 "" H 5650 2500 60  0000 C CNN
+	1    5650 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C18
+U 1 1 54A82534
+P 6000 2500
+F 0 "C18" H 6000 2600 40  0000 L CNN
+F 1 "C" H 6006 2415 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 6038 2350 30  0001 C CNN
+F 3 "" H 6000 2500 60  0000 C CNN
+	1    6000 2500
+	1    0    0    -1  
+$EndComp
+Text Label 5850 2150 2    47   ~ 0
+vbus
+$Comp
+L GND #PWR039
+U 1 1 54A82A93
+P 5850 2850
+F 0 "#PWR039" H 5850 2850 30  0001 C CNN
+F 1 "GND" H 5850 2780 30  0001 C CNN
+F 2 "" H 5850 2850 60  0000 C CNN
+F 3 "" H 5850 2850 60  0000 C CNN
+	1    5850 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7800 4000 7800 4250
+Wire Wire Line
+	8200 4000 8200 4350
+Wire Wire Line
+	7800 3500 7800 3450
+Wire Wire Line
+	8200 3500 8200 3450
+Wire Wire Line
+	7800 4250 6900 4250
+Wire Wire Line
+	8200 4350 6900 4350
+Wire Wire Line
+	6050 4700 6050 4750
+Wire Wire Line
+	6050 4750 6250 4750
+Wire Wire Line
+	6150 4700 6150 4850
+Connection ~ 6150 4750
+Wire Wire Line
+	6250 4750 6250 4700
+Wire Wire Line
+	6450 2700 6450 2800
+Wire Wire Line
+	4800 3800 4800 3650
+Wire Wire Line
+	5100 4000 5300 4000
+Wire Wire Line
+	5300 4100 5100 4100
+Wire Wire Line
+	4200 3050 4600 3050
+Wire Wire Line
+	4600 3050 4600 4000
+Wire Wire Line
+	4450 4100 4600 4100
+Wire Wire Line
+	4450 2950 4450 4100
+Wire Wire Line
+	4450 2950 4200 2950
+Wire Wire Line
+	3750 4250 4050 4250
+Wire Wire Line
+	3900 4250 3900 4400
+Connection ~ 3900 4250
+Wire Wire Line
+	4050 3850 4050 3800
+Wire Wire Line
+	4050 3800 4450 3800
+Connection ~ 4450 3800
+Wire Wire Line
+	3750 3850 3750 3650
+Wire Wire Line
+	3750 3650 4600 3650
+Connection ~ 4600 3650
+Wire Wire Line
+	4650 2900 4650 2750
+Wire Wire Line
+	4650 2750 4200 2750
+Wire Wire Line
+	4250 3150 4200 3150
+Wire Wire Line
+	850  950  850  1100
+Wire Notes Line
+	550  550  550  1150
+Wire Notes Line
+	550  1150 1150 1150
+Wire Notes Line
+	1150 1150 1150 550 
+Wire Notes Line
+	1150 550  550  550 
+Wire Wire Line
+	5650 2300 5650 2250
+Wire Wire Line
+	5650 2250 6000 2250
+Wire Wire Line
+	5850 2250 5850 2150
+Wire Wire Line
+	6000 2250 6000 2300
+Connection ~ 5850 2250
+Wire Wire Line
+	5650 2700 5650 2750
+Wire Wire Line
+	5650 2750 6000 2750
+Wire Wire Line
+	5850 2750 5850 2850
+Wire Wire Line
+	6000 2750 6000 2700
+Connection ~ 5850 2750
+Text GLabel 6900 3850 2    47   Input ~ 0
+DTR
+Text Label 5000 2150 2    47   ~ 0
+vbus
+$Comp
+L +5V #PWR040
+U 1 1 54A90EEE
+P 5150 2150
+F 0 "#PWR040" H 5150 2240 20  0001 C CNN
+F 1 "+5V" H 5150 2240 30  0000 C CNN
+F 2 "" H 5150 2150 60  0000 C CNN
+F 3 "" H 5150 2150 60  0000 C CNN
+	1    5150 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5000 2150 5150 2150
+$EndSCHEMATC
