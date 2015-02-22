@@ -6,15 +6,17 @@
     #include "Wire.h"
 #endif
 
-#define AILERON 3
-#define ELEVATOR 4
-#define RUDDER 7
-#define THROTTLE 6
+#define AILERON 3  // RX in pin
+#define ELEVATOR 4 // RX in pin
+#define RUDDER 7   // RX in pin
+#define THROTTLE 6 // RX in pin
 
-#define M1 14
-#define M2 15
-#define M3 16
-#define M4 17
+#define M1 14 // ESC motor pin 
+#define M2 15 // ESC motor pin 
+#define M3 16 // ESC motor pin 
+#define M4 17 // ESC motor pin 
+
+#define INVERT_CHANNEL 3000 // apply in 
 
 MPU6050 mpu;
 Servo motor[4];
@@ -64,18 +66,18 @@ void setup() {
 }
 
 void loop() {  
-  Serial.print("time begin = ");
+  // start timing loop
   start_time = millis();
   
   // read in the 4 supported channels 
   int duration[4];
   duration[0] = pulseIn(AILERON, HIGH);
-  duration[1] = pulseIn(ELEVATOR, HIGH);
+  duration[1] = INVERT_CHANNEL - pulseIn(ELEVATOR, HIGH);
   duration[2] = pulseIn(RUDDER, HIGH);
-  duration[3] = pulseIn(THROTTLE, HIGH);
+  duration[3] = INVERT_CHANNEL - pulseIn(THROTTLE, HIGH);
   
   // diplay miliseconds for each channel
-  #if 1
+  #if 0
     Serial.print("A/E/R/T = ");
     Serial.print(duration[0]);
     Serial.print("\t");
@@ -96,7 +98,7 @@ void loop() {
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
   
   // display raw mpu values
-  #if 1
+  #if 0
     Serial.print("a/g:\t");
     Serial.print(ax); Serial.print("\t");
     Serial.print(ay); Serial.print("\t");
@@ -113,3 +115,4 @@ void loop() {
   #endif
   
 }
+
