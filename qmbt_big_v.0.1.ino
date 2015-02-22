@@ -40,6 +40,8 @@ double comp_z_degree = 0; // complimentary z angle in degrees
 double acc_x_degree = 0; // angle estimated using the accelerometer 
 double acc_y_degree = 0; // angle estimated using the accelerometer
 
+int rx_duration_last[4] = {1500,1500,1500,1000}; // used to average channels and for comparesment - safety mechanism
+int rx_duration[4]; // store the ms each channel output
 
 void setup() {
   // initialize input pins
@@ -98,33 +100,18 @@ void setup() {
 void loop() {  
   // start timing loop
   start_time = millis();
+    
+  // get the user input
+  getUserInput();
   
-  // read in the 4 supported channels 
-  int duration[4];
-  duration[0] = pulseIn(AILERON, HIGH);
-  duration[1] = INVERT_CHANNEL - pulseIn(ELEVATOR, HIGH);
-  duration[2] = pulseIn(RUDDER, HIGH);
-  duration[3] = INVERT_CHANNEL - pulseIn(THROTTLE, HIGH);
-  
-  // diplay miliseconds for each channel
-  #if 0
-    Serial.print("A/E/R/T = ");
-    Serial.print(duration[0]);
-    Serial.print("\t");
-    Serial.print(duration[1]);
-    Serial.print("\t");
-    Serial.print(duration[2]);
-    Serial.print("\t");
-    Serial.println(duration[3]);
-  #endif
-  
+  // populate new filtered values
   callIMU();
   
   // relay the throttle to the motors
-  motor[0].writeMicroseconds(duration[3]);
-  motor[1].writeMicroseconds(duration[3]);
-  motor[2].writeMicroseconds(duration[3]);
-  motor[3].writeMicroseconds(duration[3]);
+  motor[0].writeMicroseconds(rx_duration[3]);
+  motor[1].writeMicroseconds(rx_duration[3]);
+  motor[2].writeMicroseconds(rx_duration[3]);
+  motor[3].writeMicroseconds(rx_duration[3]);
        
   // display time per loop cycle 
   #if 0
@@ -205,8 +192,55 @@ void callIMU()
     Serial.print("compl angles x/y/z  = ");
     Serial.print(comp_x_degree); Serial.print("\t");
     Serial.print(comp_y_degree); Serial.print("\t");
-    Serial.println(0);
+    Serial.println(comp_z_degree);
   #endif
     
+}
+
+void getUserInput()
+{
+  // check whats going on all the rx channels  
+  // read in the 4 supported channels 
+  rx_duration[0] = pulseIn(AILERON, HIGH);
+  rx_duration[1] = INVERT_CHANNEL - pulseIn(ELEVATOR, HIGH);
+  rx_duration[2] = pulseIn(RUDDER, HIGH);
+  rx_duration[3] = INVERT_CHANNEL - pulseIn(THROTTLE, HIGH);
+  
+  // save teh rx duration before modifying
+  int rx_temp[4];
+  rx_temp[0] = rx_duration[0];
+  rx_temp[1] = rx_duration[1];
+  rx_temp[2] = rx_duration[2];
+  rx_temp[3] = rx_duration[3];
+  
+  // smoothing and safety algorithm - average of the last 2 - average of the last 3 would probably better (or even a filter)
+  for(int i = 0; i < 4; i++)
+  {
+    if(rx_duration[i] - rx_duration_last[i] > 1000)
+    {
+      // this is not normal. disable the quadcopter
+      // not implemented for now. 
+    }
+    else
+    {
+      // average the two values together
+      rx_duration[i] = (rx_duration[i] + rx_duration_last[i])/2;     
+      
+      // save the current value to the old one
+      rx_duration_last[i] = rx_temp[i];
+    }
+  }
+   
+  // diplay miliseconds for each channel
+  #if 0
+    Serial.print("A/E/R/T = ");
+    Serial.print(rx_duration[0]);
+    Serial.print("\t");
+    Serial.print(rx_duration[1]);
+    Serial.print("\t");
+    Serial.print(rx_duration[2]);
+    Serial.print("\t");
+    Serial.println(rx_duration[3]);
+  #endif
 }
 
