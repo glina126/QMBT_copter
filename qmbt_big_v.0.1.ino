@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include "I2Cdev.h"
 #include "MPU6050.h"
-#include <math.h>
+#include <PID_v1.h>
 
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     #include "Wire.h"
@@ -17,7 +17,13 @@
 #define M3 16 // ESC motor pin 
 #define M4 17 // ESC motor pin 
 
-#define INVERT_CHANNEL 3000 // apply in 
+#define MIN_OUTPUT 1000 // min output in microseconds
+#define MAX_OUTPUT 2000 // max output in microseconds
+
+#define MIN_LIMIT -500 // the minimum value outputed by the PID
+#define MAX_LIMIT 500  // the maximum value outputed by the PID
+
+#define INVERT_CHANNEL 3000 // constant used for inverting the channel output
 
 MPU6050 mpu;
 Servo motor[4];
@@ -43,6 +49,23 @@ double acc_y_degree = 0; // angle estimated using the accelerometer
 int rx_duration_last[4] = {1500,1500,1500,1000}; // used to average channels and for comparesment - safety mechanism
 int rx_duration[4]; // store the ms each channel output
 
+double input_gx, output_gx, setpoint_gx; // x axis PID
+double input_gy, output_gy, setpoint_gy; // y axis PID
+double input_gz, output_gz, setpoint_gz; // z axis PID
+
+int motor_speed[4] = {MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT}; // timing of a pulse - in microseconds 
+int throttle = 0; // throttle position
+
+// PID objects
+PID gx_pid(&input_gx,&output_gx,&setpoint_gx,1,0,0,DIRECT); // .13, .20, .05
+PID gy_pid(&input_gy,&output_gy,&setpoint_gy,1,0,0,DIRECT);
+PID gz_pid(&input_gz,&output_gz,&setpoint_gz,1,0,0,DIRECT);
+
+// variables
+double pid_tune_p = 0.0;
+double pid_tune_i = 0.0;
+double pid_tune_d = 0.0;
+
 void setup() {
   // initialize input pins
   pinMode(AILERON, INPUT);
@@ -57,10 +80,10 @@ void setup() {
   motor[3].attach(M4);
   
   // turn off all motors
-  motor[0].writeMicroseconds(1000);
-  motor[1].writeMicroseconds(1000);
-  motor[2].writeMicroseconds(1000);
-  motor[3].writeMicroseconds(1000);
+  motor[0].writeMicroseconds(MIN_OUTPUT);
+  motor[1].writeMicroseconds(MIN_OUTPUT);
+  motor[2].writeMicroseconds(MIN_OUTPUT);
+  motor[3].writeMicroseconds(MIN_OUTPUT);
   
   // join I2C bus (I2Cdev library doesn't do this automatically)
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -80,18 +103,35 @@ void setup() {
   Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
   
   // should be ran only once and only if needed.
-  //    i.e. if there is too much noise on the acc or gryo
+  //    ONLY if there is too much noise on the acc or gryo
   // set gyroscope and accelerometer ranges
   #if 0
-  accelgyro.setFullScaleGyroRange(0x01);
-  accelgyro.setFullScaleAccelRange(0x01); 
-  accelgyro.setDLPFMode(0x06);
-  
-  Serial.print("gyro rate: ");
-  Serial.println(accelgyro.getFullScaleGyroRange());
-  Serial.print("accel rate: ");
-  Serial.println(accelgyro.getFullScaleAccelRange());
+    accelgyro.setFullScaleGyroRange(0x01);
+    accelgyro.setFullScaleAccelRange(0x01); 
+    accelgyro.setDLPFMode(0x06);
+    
+    Serial.print("gyro rate: ");
+    Serial.println(accelgyro.getFullScaleGyroRange());
+    Serial.print("accel rate: ");
+    Serial.println(accelgyro.getFullScaleAccelRange());
   #endif
+  
+  // initialize PID
+  input_gx = output_gx = setpoint_gx = 0; // x axis PID
+  input_gy =  output_gy = setpoint_gy = 0; // y axis PID
+  input_gz = output_gz = setpoint_gz = 0; // z axis PID
+  // set up PID for x axis
+  gx_pid.SetMode(AUTOMATIC); // AUTOMATIC = ON (in essence)
+  gx_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT); //MIN and MAX for output limits 
+  gx_pid.SetSampleTime(30);
+  // set up PID for y axis
+  gy_pid.SetMode(AUTOMATIC);
+  gy_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT); 
+  gy_pid.SetSampleTime(30);
+  // set up PID for yaw axis
+  gz_pid.SetMode(AUTOMATIC);
+  gz_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT);
+  gz_pid.SetSampleTime(30);
   
   // initialize the timer 
   timer = micros(); 
@@ -107,11 +147,14 @@ void loop() {
   // populate new filtered values
   callIMU();
   
-  // relay the throttle to the motors
-  motor[0].writeMicroseconds(rx_duration[3]);
-  motor[1].writeMicroseconds(rx_duration[3]);
-  motor[2].writeMicroseconds(rx_duration[3]);
-  motor[3].writeMicroseconds(rx_duration[3]);
+  // calculate the PID values
+  callPID();
+  
+  // calculate new motor values 
+  calculateNewMotorValues();
+  
+  // apply the new values to the motors
+  applyToMotors();
        
   // display time per loop cycle 
   #if 0
@@ -244,3 +287,101 @@ void getUserInput()
   #endif
 }
 
+void callPID()
+{  
+  // set the new setpoint 
+  setpoint_gx = map(rx_duration[0], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  setpoint_gy = map(rx_duration[1], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  setpoint_gz = map(rx_duration[2], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  
+  // set new input
+  // map degrees to a value from MIN_OUTPUT to MAX_OUTPUT
+  input_gx = map(comp_x_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
+  input_gy = map(comp_y_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
+  input_gz = map(comp_z_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
+  
+  // display input_gx before the calculation
+  #if 0
+    Serial.print("PID input x/y/z = "); 
+    Serial.print(input_gx);
+    Serial.print("\t"); 
+    Serial.print(input_gy);
+    Serial.print("\t"); 
+    Serial.println(input_gz);
+  #endif
+  
+  // compute the PID
+  gx_pid.Compute();
+  gy_pid.Compute();
+  gz_pid.Compute();
+    
+  // display raw PID values
+  #if 0
+    Serial.print("PID x/y/z = "); 
+    Serial.print(output_gx);
+    Serial.print("\t"); 
+    Serial.print(output_gy);
+    Serial.print("\t"); 
+    Serial.println(output_gz);
+  #endif
+  
+}
+
+void calculateNewMotorValues()
+{
+  // motor_speed is to be applied to the motors.
+  // we have to make sure it has been properly filtered
+  // programmers fingers are really important :P
+  
+  // set the throttle straight from the rx
+  throttle = rx_duration[3]; // number between 1000 and 2000 (theoritically) 
+  
+  // all motors get throttle and then are corrected by the PID
+  motor_speed[0] = throttle + output_gx + output_gy;
+  motor_speed[1] = throttle + output_gx - output_gy;
+  motor_speed[2] = throttle - output_gx - output_gy;
+  motor_speed[3] = throttle - output_gx + output_gy;
+  
+  // make sure that the values are in range
+  for(int i = 0; i < 4; i++)
+  {
+    if(motor_speed[i] < MIN_OUTPUT)
+    {
+      motor_speed[i] = MIN_OUTPUT;
+    }    
+    else if(motor_speed[i] > MAX_OUTPUT)
+    {
+      motor_speed[i] = MAX_OUTPUT; 
+    }
+      
+  }
+}
+
+void applyToMotors()
+{
+  if(throttle > 1100)
+  {
+    motor[0].writeMicroseconds(motor_speed[0]);
+    motor[1].writeMicroseconds(motor_speed[1]);
+    motor[2].writeMicroseconds(motor_speed[2]);
+    motor[3].writeMicroseconds(motor_speed[3]);
+  }
+  else
+  {
+    motor[0].writeMicroseconds(MIN_OUTPUT);
+    motor[1].writeMicroseconds(MIN_OUTPUT);
+    motor[2].writeMicroseconds(MIN_OUTPUT);
+    motor[3].writeMicroseconds(MIN_OUTPUT);
+  }
+  // display the new motor values
+  #if 1
+    Serial.print("motor values 0/1/2/3 = "); 
+    Serial.print(motor_speed[0]);
+    Serial.print("\t"); 
+    Serial.print(motor_speed[1]);
+    Serial.print("\t"); 
+    Serial.print(motor_speed[2]);
+    Serial.print("\t"); 
+    Serial.println(motor_speed[3]);
+  #endif
+}
