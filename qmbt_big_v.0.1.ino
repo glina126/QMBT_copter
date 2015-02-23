@@ -57,14 +57,17 @@ int motor_speed[4] = {MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT}; // timing
 int throttle = 0; // throttle position
 
 // PID objects
-PID gx_pid(&input_gx,&output_gx,&setpoint_gx,1,0,0,DIRECT); // .13, .20, .05
-PID gy_pid(&input_gy,&output_gy,&setpoint_gy,1,0,0,DIRECT);
-PID gz_pid(&input_gz,&output_gz,&setpoint_gz,1,0,0,DIRECT);
+PID gx_pid(&input_gx,&output_gx,&setpoint_gx,0,0,.02,DIRECT); // .13, .20, .05
+PID gy_pid(&input_gy,&output_gy,&setpoint_gy,0,0,.02,DIRECT);
+PID gz_pid(&input_gz,&output_gz,&setpoint_gz,0,0,0,DIRECT);
 
-// variables
+// tunning variables
 double pid_tune_p = 0.0;
 double pid_tune_i = 0.0;
 double pid_tune_d = 0.0;
+
+bool ARMED = false; // protection against accidental motor spin
+int arm_led = 5; // arm led - on when ARMED
 
 void setup() {
   // initialize input pins
@@ -73,6 +76,9 @@ void setup() {
   pinMode(RUDDER, INPUT);
   pinMode(THROTTLE, INPUT);
   
+  // arm led - on when ARMED
+  pinMode(arm_led, OUTPUT);
+   
   // attach motor to pins
   motor[0].attach(M1);
   motor[1].attach(M2);
@@ -143,6 +149,8 @@ void loop() {
     
   // get the user input
   getUserInput();
+  
+  arm();
   
   // populate new filtered values
   callIMU();
@@ -245,7 +253,7 @@ void getUserInput()
   // check whats going on all the rx channels  
   // read in the 4 supported channels 
   rx_duration[0] = pulseIn(AILERON, HIGH);
-  rx_duration[1] = INVERT_CHANNEL - pulseIn(ELEVATOR, HIGH);
+  rx_duration[1] = pulseIn(ELEVATOR, HIGH);
   rx_duration[2] = pulseIn(RUDDER, HIGH);
   rx_duration[3] = INVERT_CHANNEL - pulseIn(THROTTLE, HIGH);
   
@@ -290,8 +298,8 @@ void getUserInput()
 void callPID()
 {  
   // set the new setpoint 
-  setpoint_gx = map(rx_duration[0], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
-  setpoint_gy = map(rx_duration[1], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  setpoint_gx = map(rx_duration[1], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  setpoint_gy = map(rx_duration[0], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
   setpoint_gz = map(rx_duration[2], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
   
   // set new input
@@ -357,9 +365,54 @@ void calculateNewMotorValues()
   }
 }
 
+int armed_counter = 0;
+
+void arm()
+{
+  if(throttle < 1200 && ARMED == false && rx_duration[1] < 1300)
+  {    
+     Serial.print("counter = ");
+     Serial.println(armed_counter);
+     
+     // increase armed counter
+     armed_counter++;
+     if(armed_counter > 40)
+     {
+       // reset the counter
+       armed_counter = 0;
+       // turn on the ARMED led
+       digitalWrite(arm_led, HIGH);
+       // set ARMED to true
+       ARMED = true;
+     }
+  }
+  else if(throttle < 1200 && ARMED == true && rx_duration[1] > 1700)
+  {    
+     Serial.print("counter = ");
+     Serial.println(armed_counter);
+     
+     // increase armed counter
+     armed_counter++;
+     if(armed_counter > 40)
+     {
+       // reset the counter
+       armed_counter = 0;
+       // turn on the ARMED led
+       digitalWrite(arm_led, LOW);
+       // set ARMED to true
+       ARMED = false;
+     }
+  }
+  else 
+  {
+    armed_counter = 0;
+  }  
+}
+
+
 void applyToMotors()
 {
-  if(throttle > 1100)
+  if(throttle > 1200 && ARMED)
   {
     motor[0].writeMicroseconds(motor_speed[0]);
     motor[1].writeMicroseconds(motor_speed[1]);
