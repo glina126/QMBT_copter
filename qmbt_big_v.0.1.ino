@@ -20,8 +20,10 @@
 #define MIN_OUTPUT 1000 // min output in microseconds
 #define MAX_OUTPUT 2000 // max output in microseconds
 
-#define MIN_LIMIT -500 // the minimum value outputed by the PID
-#define MAX_LIMIT 500  // the maximum value outputed by the PID
+#define MIN_LIMIT -100 // the minimum value outputed by the PID
+#define MAX_LIMIT 100  // the maximum value outputed by the PID
+
+#define MIN_SPIN 1200
 
 #define INVERT_CHANNEL 3000 // constant used for inverting the channel output
 
@@ -57,9 +59,9 @@ int motor_speed[4] = {MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT}; // timing
 int throttle = 0; // throttle position
 
 // PID objects
-PID gx_pid(&input_gx,&output_gx,&setpoint_gx,0,0,.02,DIRECT); // .13, .20, .05
-PID gy_pid(&input_gy,&output_gy,&setpoint_gy,0,0,.02,DIRECT);
-PID gz_pid(&input_gz,&output_gz,&setpoint_gz,0,0,0,DIRECT);
+PID gx_pid(&input_gx,&output_gx,&setpoint_gx,1.4,.8,.55,DIRECT); // 1.2 0 0.41
+PID gy_pid(&input_gy,&output_gy,&setpoint_gy,1.3,.8,.5,DIRECT); // 1.4, 0.9, 0.44
+PID gz_pid(&input_gz,&output_gz,&setpoint_gz,1.2,0,.41,DIRECT);
 
 // tunning variables
 double pid_tune_p = 0.0;
@@ -111,15 +113,18 @@ void setup() {
   // should be ran only once and only if needed.
   //    ONLY if there is too much noise on the acc or gryo
   // set gyroscope and accelerometer ranges
-  #if 0
-    accelgyro.setFullScaleGyroRange(0x01);
-    accelgyro.setFullScaleAccelRange(0x01); 
-    accelgyro.setDLPFMode(0x06);
+  #if 1
+    mpu.setFullScaleGyroRange(0x00);
+    mpu.setFullScaleAccelRange(0x00); 
+    mpu.setDLPFMode(0x03); //0x03
     
     Serial.print("gyro rate: ");
-    Serial.println(accelgyro.getFullScaleGyroRange());
+    Serial.println(mpu.getFullScaleGyroRange());
     Serial.print("accel rate: ");
-    Serial.println(accelgyro.getFullScaleAccelRange());
+    Serial.println(mpu.getFullScaleAccelRange());
+    Serial.print("DLPFMode: ");
+    Serial.println(mpu.getDLPFMode());
+    delay(1500);
   #endif
   
   // initialize PID
@@ -127,15 +132,12 @@ void setup() {
   input_gy =  output_gy = setpoint_gy = 0; // y axis PID
   input_gz = output_gz = setpoint_gz = 0; // z axis PID
   // set up PID for x axis
-  gx_pid.SetMode(AUTOMATIC); // AUTOMATIC = ON (in essence)
   gx_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT); //MIN and MAX for output limits 
   gx_pid.SetSampleTime(30);
   // set up PID for y axis
-  gy_pid.SetMode(AUTOMATIC);
   gy_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT); 
   gy_pid.SetSampleTime(30);
   // set up PID for yaw axis
-  gz_pid.SetMode(AUTOMATIC);
   gz_pid.SetOutputLimits(MIN_LIMIT,MAX_LIMIT);
   gz_pid.SetSampleTime(30);
   
@@ -239,7 +241,7 @@ void callIMU()
   comp_z_degree = raw_z_degree; // no magnometer thus we cannot filter the z axis. :(
   
   // display angles estimated using the complimentary filter
-  #if 0
+  #if 1
     Serial.print("compl angles x/y/z  = ");
     Serial.print(comp_x_degree); Serial.print("\t");
     Serial.print(comp_y_degree); Serial.print("\t");
@@ -296,17 +298,34 @@ void getUserInput()
 }
 
 void callPID()
-{  
+{ 
   // set the new setpoint 
-  setpoint_gx = map(rx_duration[1], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
-  setpoint_gy = map(rx_duration[0], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
-  setpoint_gz = map(rx_duration[2], MIN_OUTPUT, MAX_OUTPUT, MIN_LIMIT, MAX_LIMIT);
+  long temp_n = -40.0;
+  long temp_p = 40.0;
+  setpoint_gx = modifiedMap(rx_duration[1], MIN_OUTPUT, MAX_OUTPUT, temp_n, temp_p);
+  setpoint_gy = modifiedMap(rx_duration[0], MIN_OUTPUT, MAX_OUTPUT, -40, 40);
+  setpoint_gz = modifiedMap(rx_duration[2], MIN_OUTPUT, MAX_OUTPUT, -40, 40);
+      
+  // display setpoint before the calculation
+  #if 0
+    Serial.print("PID setpoint x/y/z = "); 
+    Serial.print(setpoint_gx);
+    Serial.print("\t"); 
+    Serial.print(setpoint_gy);
+    Serial.print("\t"); 
+    Serial.println(setpoint_gz);
+  #endif
+  
   
   // set new input
-  // map degrees to a value from MIN_OUTPUT to MAX_OUTPUT
-  input_gx = map(comp_x_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
-  input_gy = map(comp_y_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
-  input_gz = map(comp_z_degree, -179.0f, 179.0f, MIN_LIMIT, MAX_LIMIT);
+  // map degrees to a value from MIN_OUTPUT to MAX_OUTPUT  
+ // input_gx = map(comp_x_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
+ // input_gy = map(comp_y_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
+ // input_gz = map(comp_z_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
+ 
+ input_gx = comp_x_degree;
+ input_gy = comp_y_degree;
+ input_gz = comp_z_degree;
   
   // display input_gx before the calculation
   #if 0
@@ -345,23 +364,27 @@ void calculateNewMotorValues()
   throttle = rx_duration[3]; // number between 1000 and 2000 (theoritically) 
   
   // all motors get throttle and then are corrected by the PID
-  motor_speed[0] = throttle + output_gx + output_gy;
-  motor_speed[1] = throttle + output_gx - output_gy;
-  motor_speed[2] = throttle - output_gx - output_gy;
-  motor_speed[3] = throttle - output_gx + output_gy;
+  motor_speed[0] = throttle + output_gx + output_gy ;
+  motor_speed[1] = throttle + output_gx - output_gy ;
+  motor_speed[2] = throttle - output_gx - output_gy ;
+  motor_speed[3] = throttle - output_gx + output_gy ;
   
   // make sure that the values are in range
   for(int i = 0; i < 4; i++)
   {
-    if(motor_speed[i] < MIN_OUTPUT)
+    if(motor_speed[i] < MIN_SPIN)
     {
-      motor_speed[i] = MIN_OUTPUT;
+      motor_speed[i] = MIN_SPIN;
     }    
     else if(motor_speed[i] > MAX_OUTPUT)
     {
       motor_speed[i] = MAX_OUTPUT; 
     }
-      
+    
+    if(ARMED && motor_speed[i] < MIN_SPIN)
+    {
+      motor_speed[i] = MIN_SPIN; 
+    }
   }
 }
 
@@ -414,10 +437,18 @@ void applyToMotors()
 {
   if(throttle > 1200 && ARMED)
   {
+    if(!gx_pid.GetMode())
+    {
+      Serial.println("setting to automatic");
+      gx_pid.SetMode(AUTOMATIC);
+      gy_pid.SetMode(AUTOMATIC);
+      gz_pid.SetMode(AUTOMATIC);      
+    } 
+    
     motor[0].writeMicroseconds(motor_speed[0]);
     motor[1].writeMicroseconds(motor_speed[1]);
     motor[2].writeMicroseconds(motor_speed[2]);
-    motor[3].writeMicroseconds(motor_speed[3]);
+    motor[3].writeMicroseconds(motor_speed[3]);  
   }
   else
   {
@@ -425,9 +456,20 @@ void applyToMotors()
     motor[1].writeMicroseconds(MIN_OUTPUT);
     motor[2].writeMicroseconds(MIN_OUTPUT);
     motor[3].writeMicroseconds(MIN_OUTPUT);
+    
+    gx_pid.SetMode(MANUAL);
+    gy_pid.SetMode(MANUAL);
+    gz_pid.SetMode(MANUAL);
+    
+    setpoint_gx = 0;
+    setpoint_gy = 0;
+    setpoint_gz = 0; 
+    
+    // reset the heading
+    comp_z_degree = 0;
   }
   // display the new motor values
-  #if 1
+  #if 0
     Serial.print("motor values 0/1/2/3 = "); 
     Serial.print(motor_speed[0]);
     Serial.print("\t"); 
@@ -437,4 +479,11 @@ void applyToMotors()
     Serial.print("\t"); 
     Serial.println(motor_speed[3]);
   #endif
+}
+
+double modifiedMap(double x, double in_min, double in_max, double out_min, double out_max)
+{
+ double temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+ temp = (int) (4*temp + .5);
+ return (double) temp/4;
 }
