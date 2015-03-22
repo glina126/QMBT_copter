@@ -1,0 +1,175 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:Custom_components
+LIBS:QMBTv1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Booster_5V IC3
+U 1 1 54A7AC48
+P 5800 3700
+F 0 "IC3" H 5700 3900 60  0000 C CNN
+F 1 "Booster_5V" H 5850 3400 60  0000 C CNN
+F 2 "footprints:FAN4860" H 5800 3700 60  0001 C CNN
+F 3 "" H 5800 3700 60  0000 C CNN
+	1    5800 3700
+	1    0    0    -1  
+$EndComp
+Text GLabel 7150 3200 2    47   Input ~ 0
+VIN
+$Comp
+L C C8
+U 1 1 54A7ACAB
+P 5850 3200
+F 0 "C8" H 5850 3300 40  0000 L CNN
+F 1 "2.2uF" V 6000 3150 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 5888 3050 30  0001 C CNN
+F 3 "" H 5850 3200 60  0000 C CNN
+	1    5850 3200
+	0    1    1    0   
+$EndComp
+$Comp
+L INDUCTOR 1uH1
+U 1 1 54A7AD1C
+P 6800 3700
+F 0 "1uH1" V 6750 3700 40  0000 C CNN
+F 1 "INDUCTOR" V 6900 3700 40  0000 C CNN
+F 2 "footprints:Inductor_0603" H 6800 3700 60  0001 C CNN
+F 3 "" V 7000 3700 60  0000 C CNN
+	1    6800 3700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C7
+U 1 1 54A7AD72
+P 5150 4100
+F 0 "C7" H 5150 4200 40  0000 L CNN
+F 1 "4.7uF" H 5156 4015 40  0000 L CNN
+F 2 "SMD_Packages:SMD-0402_c" H 5188 3950 30  0001 C CNN
+F 3 "" H 5150 4100 60  0000 C CNN
+	1    5150 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7150 3200 7150 3800
+Wire Wire Line
+	7150 3700 7100 3700
+Wire Wire Line
+	6500 3700 6250 3700
+Wire Wire Line
+	7150 3800 6250 3800
+Connection ~ 7150 3700
+Wire Wire Line
+	6250 3600 6300 3600
+Wire Wire Line
+	6300 3600 6300 3200
+Wire Wire Line
+	6050 3200 7150 3200
+Connection ~ 6300 3200
+Wire Wire Line
+	5450 3700 5150 3700
+Wire Wire Line
+	5150 3500 5150 3900
+Wire Wire Line
+	5450 3800 5150 3800
+Connection ~ 5150 3800
+$Comp
+L GND #PWR020
+U 1 1 54A7B15C
+P 5150 4400
+F 0 "#PWR020" H 5150 4400 30  0001 C CNN
+F 1 "GND" H 5150 4330 30  0001 C CNN
+F 2 "" H 5150 4400 60  0000 C CNN
+F 3 "" H 5150 4400 60  0000 C CNN
+	1    5150 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5150 4400 5150 4300
+$Comp
+L GND #PWR021
+U 1 1 54A7B20B
+P 4950 3750
+F 0 "#PWR021" H 4950 3750 30  0001 C CNN
+F 1 "GND" H 4950 3680 30  0001 C CNN
+F 2 "" H 4950 3750 60  0000 C CNN
+F 3 "" H 4950 3750 60  0000 C CNN
+	1    4950 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 3600 4950 3600
+Wire Wire Line
+	4950 3200 4950 3750
+Wire Wire Line
+	5650 3200 4950 3200
+Connection ~ 4950 3600
+$Comp
+L GND #PWR022
+U 1 1 54A89395
+P 6300 4050
+F 0 "#PWR022" H 6300 4050 30  0001 C CNN
+F 1 "GND" H 6300 3980 30  0001 C CNN
+F 2 "" H 6300 4050 60  0000 C CNN
+F 3 "" H 6300 4050 60  0000 C CNN
+	1    6300 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6250 3900 6300 3900
+Wire Wire Line
+	6300 3900 6300 4050
+$Comp
+L +5V #PWR023
+U 1 1 54A9147F
+P 5150 3500
+F 0 "#PWR023" H 5150 3590 20  0001 C CNN
+F 1 "+5V" H 5150 3590 30  0000 C CNN
+F 2 "" H 5150 3500 60  0000 C CNN
+F 3 "" H 5150 3500 60  0000 C CNN
+	1    5150 3500
+	1    0    0    -1  
+$EndComp
+Connection ~ 5150 3700
+$EndSCHEMATC
