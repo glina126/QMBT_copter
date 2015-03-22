@@ -23,7 +23,7 @@
 #define MIN_LIMIT -100 // the minimum value outputed by the PID
 #define MAX_LIMIT 100  // the maximum value outputed by the PID
 
-#define MIN_SPIN 1200
+#define MIN_SPIN 1200 // minimal motor speed
 
 #define INVERT_CHANNEL 3000 // constant used for inverting the channel output
 
@@ -110,9 +110,7 @@ void setup() {
   Serial.println("Testing device connections...");
   Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
   
-  // should be ran only once and only if needed.
-  //    ONLY if there is too much noise on the acc or gryo
-  // set gyroscope and accelerometer ranges
+  // set gyroscope and accelerometer ranges - safe to do it everytime?
   #if 1
     mpu.setFullScaleGyroRange(0x00);
     mpu.setFullScaleAccelRange(0x00); 
@@ -318,11 +316,6 @@ void callPID()
   
   
   // set new input
-  // map degrees to a value from MIN_OUTPUT to MAX_OUTPUT  
- // input_gx = map(comp_x_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
- // input_gy = map(comp_y_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
- // input_gz = map(comp_z_degree, -1790, 1790, MIN_LIMIT, MAX_LIMIT);
- 
  input_gx = comp_x_degree;
  input_gy = comp_y_degree;
  input_gz = comp_z_degree;
