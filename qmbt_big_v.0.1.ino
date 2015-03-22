@@ -1,7 +1,25 @@
+/****************************************************************************************
+QMBT BIG V.1.0 - stable
+Written by Damian Glinojecki
+
+Features:
+- Arming system 
+- Flexible code to easily accommodate different structure and internals
+- Spin wild (best feature!)
+- Flyable, but hard to control quadcopter 
+- IT WORKS! 
+
+TO DO:
+- Change platform - MBED
+- Next platform is going to be a 32-bit ARM Cortex-M0 Microcontroller running at 48MHz 
+- Prototyipng platform: http://developer.mbed.org/platforms/EA-LPC11U35/
+- Finally getting out of the Arduino bubble. 
+****************************************************************************************/
+
 #include <Servo.h>
-#include "I2Cdev.h"
-#include "MPU6050.h"
-#include <PID_v1.h>
+#include "I2Cdev.h"  // library written by jrowberg
+#include "MPU6050.h" // library written by jrowberg
+#include <PID_v1.h>  // library written by Beauregard
 
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     #include "Wire.h"
