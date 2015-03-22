@@ -1,19 +1,4 @@
 #include <Servo.h>
-<<<<<<< HEAD
-
-#define AILERON 3
-#define ELEVATOR 4
-#define RUDDER 7
-#define THROTTLE 6
-
-#define M1 14
-#define M2 15
-#define M3 16
-#define M4 17
-
-Servo motor[4];
-
-=======
 #include "I2Cdev.h"
 #include "MPU6050.h"
 #include <PID_v1.h>
@@ -86,7 +71,6 @@ double pid_tune_d = 0.0;
 bool ARMED = false; // protection against accidental motor spin
 int arm_led = 5; // arm led - on when ARMED
 
->>>>>>> development
 void setup() {
   // initialize input pins
   pinMode(AILERON, INPUT);
@@ -94,12 +78,9 @@ void setup() {
   pinMode(RUDDER, INPUT);
   pinMode(THROTTLE, INPUT);
   
-<<<<<<< HEAD
-=======
   // arm led - on when ARMED
   pinMode(arm_led, OUTPUT);
    
->>>>>>> development
   // attach motor to pins
   motor[0].attach(M1);
   motor[1].attach(M2);
@@ -107,39 +88,6 @@ void setup() {
   motor[3].attach(M4);
   
   // turn off all motors
-<<<<<<< HEAD
-  motor[0].writeMicroseconds(1000);
-  motor[1].writeMicroseconds(1000);
-  motor[2].writeMicroseconds(1000);
-  motor[3].writeMicroseconds(1000);
- 
-  // initialize serial comm
-  Serial.begin(9600);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  int duration[4];
-  duration[0] = pulseIn(AILERON, HIGH);
-  duration[1] = pulseIn(ELEVATOR, HIGH);
-  duration[2] = pulseIn(RUDDER, HIGH);
-  duration[3] = pulseIn(THROTTLE, HIGH);
-  
-  Serial.print("A/E/R/T = ");
-  Serial.print(duration[0]);
-  Serial.print("\t");
-  Serial.print(duration[1]);
-  Serial.print("\t");
-  Serial.print(duration[2]);
-  Serial.print("\t");
-  Serial.println(duration[3]);
-  
-  motor[0].writeMicroseconds(duration[3]);
-  motor[1].writeMicroseconds(duration[3]);
-  motor[2].writeMicroseconds(duration[3]);
-  motor[3].writeMicroseconds(duration[3]);
-  
-=======
   motor[0].writeMicroseconds(MIN_OUTPUT);
   motor[1].writeMicroseconds(MIN_OUTPUT);
   motor[2].writeMicroseconds(MIN_OUTPUT);
@@ -538,5 +486,4 @@ double modifiedMap(double x, double in_min, double in_max, double out_min, doubl
  double temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
  temp = (int) (4*temp + .5);
  return (double) temp/4;
->>>>>>> development
 }
