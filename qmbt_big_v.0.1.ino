@@ -77,8 +77,8 @@ int motor_speed[4] = {MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT, MIN_OUTPUT}; // timing
 int throttle = 0; // throttle position
 
 // PID objects
-PID gx_pid(&input_gx,&output_gx,&setpoint_gx,1.4,.8,.55,DIRECT); // 1.2 0 0.41
-PID gy_pid(&input_gy,&output_gy,&setpoint_gy,1.3,.8,.5,DIRECT); // 1.4, 0.9, 0.44
+PID gx_pid(&input_gx,&output_gx,&setpoint_gx,1.8,2.0,.4,DIRECT); // 1.2, 1.0, .65
+PID gy_pid(&input_gy,&output_gy,&setpoint_gy,1.8,2.0,.4,DIRECT); // 1.4, 0.9, 0.44
 PID gz_pid(&input_gz,&output_gz,&setpoint_gz,1.2,0,.41,DIRECT);
 
 // tunning variables
