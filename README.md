@@ -4,6 +4,8 @@ A simple, yet versatile quadcopter controller and code. Based on the Arduino pla
 <img src="http://cdn.makeagif.com/media/3-28-2015/fegofJ.gif" alt="arduino quadcopter">
 <img src="http://cdn.makeagif.com/media/3-28-2015/taoqIo.gif" alt="arduino quadcopter">
 
+![alt text](https://github.com/glina126/QMBT_copter/blob/master/IMG_0184.JPG "QMBT with its code in the background")
+
 ##Final Update:
 This project is changing direction. The atmega328p microcontroller is simply insufficient for being used as a quadcopter brain. <br>
 This is due to a few reasons mainly because - not enough interrupts and 8bit architecture.  <br>
