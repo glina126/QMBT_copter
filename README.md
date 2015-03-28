@@ -1,8 +1,8 @@
 # QMBT_copter
 A simple, yet versatile quadcopter controller and code. Based on the Arduino platform using the Atmega328p and MPU6050.
 
-<a href="http://makeagif.com/fegofJ" title="arduino quadcopter"><img src="http://cdn.makeagif.com/media/3-28-2015/fegofJ.gif" alt="arduino quadcopter"></a><div style="font-size:11px;"></div>
-<a href="http://makeagif.com/taoqIo" title="arduino quadcopter"><img src="http://cdn.makeagif.com/media/3-28-2015/taoqIo.gif" alt="arduino quadcopter"></a><div style="font-size:11px;"></div>
+<img src="http://cdn.makeagif.com/media/3-28-2015/fegofJ.gif" alt="arduino quadcopter">
+<img src="http://cdn.makeagif.com/media/3-28-2015/taoqIo.gif" alt="arduino quadcopter">
 
 ##Final Update:
 This project is changing direction. The atmega328p microcontroller is simply insufficient for being used as a quadcopter brain. <br>
